@@ -3,7 +3,9 @@
 .pizza-block {
     width: 280px;
     text-align: center;
-
+    &:not(:last-child) {
+        margin-bottom: 20px;
+    }
     &__image {
         width: 260px;
     }
