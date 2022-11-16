@@ -4,7 +4,7 @@ import Categories from '../components/Categories'
 import Sort from '../components/Sort'
 import Skeleton from '../components/PizzaBlock/Skeleton'
 import PizzaBlock from '../components/PizzaBlock'
-import Pagination from '../Pagination'
+import Pagination from '../components/Pagination'
 import { SearchContext } from '../App'
 
 const Home = () => {
