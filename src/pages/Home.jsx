@@ -11,17 +11,12 @@ import { SearchContext } from '../App'
 
 const Home = () => {
     const dispatch = useDispatch()
-    const categoryId = useSelector((state) => state.filter.categoryId)
+    const { categoryId, sort } = useSelector((state) => state.filter)
 
     const { searchValue } = useContext(SearchContext)
     const [items, setItems] = useState([])
     const [isItemsLoading, setIsItemsLoading] = useState(true)
-    // const [categoryId, setCaregoryId] = useState(0)
     const [currentPage, setCarrentPage] = useState(1)
-    const [sortType, setSortType] = useState({
-        name: 'популярности',
-        sortProperty: 'rating'
-    })
 
     const onChangeCategory = (id) => {
         dispatch(setCategoryId(id))
@@ -30,8 +25,8 @@ const Home = () => {
     useEffect(() => {
         setIsItemsLoading(true)
 
-        const sortBy = sortType.sortProperty.replace('-', '')
-        const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
+        const sortBy = sort.sortProperty.replace('-', '')
+        const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
         const category = categoryId > 0 ? `category=${categoryId}` : ''
         const search = searchValue ? `&search=${searchValue}` : ''
 
@@ -49,7 +44,7 @@ const Home = () => {
                 console.log('Ошибка при получении данных' + err)
             })
         window.scrollTo(0, 0)
-    }, [categoryId, sortType, searchValue, currentPage])
+    }, [categoryId, sort.sortProperty, searchValue, currentPage])
 
     const sceletons = [...new Array(6)].map((_, index) => (
         <Skeleton key={index} />
@@ -63,10 +58,7 @@ const Home = () => {
                     value={categoryId}
                     onClickCategory={onChangeCategory}
                 />
-                <Sort
-                    value={sortType}
-                    onClickSortType={(id) => setSortType(id)}
-                />
+                <Sort />
             </div>
             <h2 className='content__title'>Все пиццы</h2>
             <div className='content__items'>

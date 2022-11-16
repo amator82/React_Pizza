@@ -1,19 +1,23 @@
 import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { setSort } from '../redux/slices/filterSlice'
 
-const Sort = ({ value, onClickSortType }) => {
+const sortList = [
+    { name: 'популярности(DESC)', sortProperty: 'rating' },
+    { name: 'популярности(ASC)', sortProperty: '-rating' },
+    { name: 'цене(DESC)', sortProperty: 'price' },
+    { name: 'цене(ASC)', sortProperty: '-price' },
+    { name: 'алфавиту(DESC)', sortProperty: 'title' },
+    { name: 'алфавиту(ASC)', sortProperty: '-title' }
+]
+
+const Sort = () => {
+    const dispatch = useDispatch()
+    const sort = useSelector((state) => state.filter.sort)
     const [isOpenPopup, setIsOpenPopup] = useState(false)
 
-    const sortList = [
-        { name: 'популярности(DESC)', sortProperty: 'rating' },
-        { name: 'популярности(ASC)', sortProperty: '-rating' },
-        { name: 'цене(DESC)', sortProperty: 'price' },
-        { name: 'цене(ASC)', sortProperty: '-price' },
-        { name: 'алфавиту(DESC)', sortProperty: 'title' },
-        { name: 'алфавиту(ASC)', sortProperty: '-title' }
-    ]
-
-    function onClickSortLink(index) {
-        onClickSortType(index)
+    const onClickSortLink = (obj) => {
+        dispatch(setSort(obj))
         setIsOpenPopup(false)
     }
 
@@ -36,7 +40,7 @@ const Sort = ({ value, onClickSortType }) => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span>{value.name}</span>
+                <span>{sort.name}</span>
             </div>
             {isOpenPopup && (
                 <div className='sort__popup'>
@@ -46,7 +50,7 @@ const Sort = ({ value, onClickSortType }) => {
                                 key={index}
                                 onClick={() => onClickSortLink(obj)}
                                 className={
-                                    value.sortProperty === obj.sortProperty
+                                    sort.sortProperty === obj.sortProperty
                                         ? 'active'
                                         : ''
                                 }
