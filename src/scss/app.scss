@@ -24,6 +24,9 @@ body {
         row-gap: 40px;
         column-gap: 40px;
         flex-wrap: wrap;
+        &:not(:last-child) {
+            margin-bottom: 20px;
+        }
     }
     &__top {
         display: flex;
