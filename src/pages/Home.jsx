@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { setCategoryId } from '../redux/slices/filterSlice'
@@ -30,14 +31,12 @@ const Home = () => {
         const category = categoryId > 0 ? `category=${categoryId}` : ''
         const search = searchValue ? `&search=${searchValue}` : ''
 
-        fetch(
-            `https://636cf37291576e19e31a7e18.mockapi.io/react_pizza/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
-        )
-            .then((res) => {
-                return res.json()
-            })
-            .then((arr) => {
-                setItems(arr)
+        axios
+            .get(
+                `https://636cf37291576e19e31a7e18.mockapi.io/react_pizza/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
+            )
+            .then((response) => {
+                setItems(response.data)
                 setIsItemsLoading(false)
             })
             .catch((err) => {
