@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setSort } from '../redux/slices/filterSlice'
 
@@ -14,6 +14,8 @@ export const sortList = [
 const Sort = () => {
     const dispatch = useDispatch()
     const sort = useSelector((state) => state.filter.sort)
+    const sortRef = useRef()
+
     const [isOpenPopup, setIsOpenPopup] = useState(false)
 
     const onClickSortLink = (obj) => {
@@ -21,8 +23,21 @@ const Sort = () => {
         setIsOpenPopup(false)
     }
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (!event.path.includes(sortRef.current)) {
+                setIsOpenPopup(false)
+            }
+        }
+
+        document.body.addEventListener('click', handleClickOutside)
+
+        return () =>
+            document.body.removeEventListener('click', handleClickOutside)
+    }, [])
+
     return (
-        <div className='sort'>
+        <div ref={sortRef} className='sort'>
             <div
                 onClick={() => setIsOpenPopup(!isOpenPopup)}
                 className='sort__label'
