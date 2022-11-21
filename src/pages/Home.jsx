@@ -44,7 +44,7 @@ const Home = () => {
         dispatch(setCurrentPage(number))
     }
 
-    const fetchPizzas = () => {
+    const fetchPizzas = async () => {
         setIsItemsLoading(true)
 
         const sortBy = sort.sortProperty.replace('-', '')
@@ -52,17 +52,18 @@ const Home = () => {
         const category = categoryId > 0 ? `category=${categoryId}` : ''
         const search = searchValue ? `&search=${searchValue}` : ''
 
-        axios
-            .get(
+        try {
+            const res = await axios.get(
                 `https://636cf37291576e19e31a7e18.mockapi.io/react_pizza/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
             )
-            .then((response) => {
-                setItems(response.data)
-                setIsItemsLoading(false)
-            })
-            .catch((err) => {
-                console.log('Ошибка при получении данных' + err)
-            })
+            setItems(res.data)
+
+            window.scrollTo(0, 0)
+        } catch (error) {
+            console.log('Произошла ошибка при получении данных', error)
+        } finally {
+            setIsItemsLoading(false)
+        }
     }
 
     //! Если изменили параметры и был первый рендер
@@ -99,8 +100,6 @@ const Home = () => {
 
     //! Если был первый рендер, то запрашиваем пиццы
     useEffect(() => {
-        window.scrollTo(0, 0)
-
         fetchPizzas()
         if (!isSearch.current) {
         }
