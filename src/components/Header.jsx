@@ -11,7 +11,7 @@ const Header = () => {
     const location = useLocation()
 
     const totalCount = items.reduce((sum, item) => sum + item.count, 0)
-
+    
     return (
         <div className='header'>
             <div className='container'>
