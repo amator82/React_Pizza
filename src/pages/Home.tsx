@@ -17,7 +17,7 @@ import Skeleton from '../components/PizzaBlock/Skeleton'
 import PizzaBlock from '../components/PizzaBlock'
 import Pagination from '../components/Pagination'
 
-const Home = () => {
+const Home: React.FC = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const isSearch = useRef(false)
@@ -27,12 +27,12 @@ const Home = () => {
     const { categoryId, sort, currentPage, searchValue } =
         useSelector(filterSelector)
 
-    const onChangeCategory = useCallback((idx) => {
+    const onChangeCategory = (idx: number) => {
         dispatch(setCategoryId(idx))
-    }, [])
+    }
 
-    const onChangeCurrentPage = (number) => {
-        dispatch(setCurrentPage(number))
+    const onChangeCurrentPage = (page: number) => {
+        dispatch(setCurrentPage(page))
     }
 
     const getPizzas = async () => {
@@ -42,6 +42,7 @@ const Home = () => {
         const search = searchValue ? `&search=${searchValue}` : ''
 
         dispatch(
+            // @ts-ignore
             fetchPizzas({
                 sortBy,
                 order,
@@ -98,7 +99,7 @@ const Home = () => {
     const sceletons = [...new Array(6)].map((_, index) => (
         <Skeleton key={index} />
     ))
-    const pizzas = items.map((obj) => (
+    const pizzas = items.map((obj: any) => (
         <Link key={obj.id} to={`/pizza/${obj.id}`}>
             <PizzaBlock {...obj} />
         </Link>
