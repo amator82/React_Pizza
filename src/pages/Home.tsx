@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import qs from 'qs'
 import { useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import {
     filterSelector,
@@ -107,11 +107,7 @@ const Home: React.FC = () => {
     const sceletons = [...new Array(6)].map((_, index) => (
         <Skeleton key={index} />
     ))
-    const pizzas = items.map((obj: any) => (
-        <Link key={obj.id} to={`/pizza/${obj.id}`}>
-            <PizzaBlock {...obj} />
-        </Link>
-    ))
+    const pizzas = items.map((obj: any) => <PizzaBlock {...obj} />)
 
     return (
         <>
