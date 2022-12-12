@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import qs from 'qs'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -32,9 +32,9 @@ const Home: React.FC = () => {
     const { categoryId, sort, currentPage, searchValue } =
         useSelector(filterSelector)
 
-    const onChangeCategory = (idx: number) => {
+    const onChangeCategory = useCallback((idx: number) => {
         dispatch(setCategoryId(idx))
-    }
+    }, [])
 
     const onChangeCurrentPage = (page: number) => {
         dispatch(setCurrentPage(page))
@@ -60,42 +60,42 @@ const Home: React.FC = () => {
     }
 
     //! Если изменили параметры и был первый рендер
-    useEffect(() => {
-        if (isMounted.current) {
-            const queryString = qs.stringify({
-                sortProperty: sort.sortProperty,
-                categoryId,
-                currentPage
-            })
-            navigate(`?${queryString}`)
-        }
+    // useEffect(() => {
+    //     if (isMounted.current) {
+    //         const queryString = qs.stringify({
+    //             sortProperty: sort.sortProperty,
+    //             categoryId,
+    //             currentPage
+    //         })
+    //         navigate(`?${queryString}`)
+    //     }
 
-        isMounted.current = true
-    }, [categoryId, sort.sortProperty, currentPage])
+    //     isMounted.current = true
+    // }, [categoryId, sort.sortProperty, currentPage])
 
     //! Если был первый рендер, то проверяем URL-параметры и сохраняем в Redux
-    useEffect(() => {
-        if (window.location.search) {
-            const params = qs.parse(
-                window.location.search.substring(1)
-            ) as unknown as SearchPizzaParams
+    // useEffect(() => {
+    //     if (window.location.search) {
+    //         const params = qs.parse(
+    //             window.location.search.substring(1)
+    //         ) as unknown as SearchPizzaParams
 
-            const sort = sortList.find(
-                (obj) => obj.sortProperty === params.sortBy
-            )
+    //         const sort = sortList.find(
+    //             (obj) => obj.sortProperty === params.sortBy
+    //         )
 
-            dispatch(
-                setFilters({
-                    searchValue: params.search,
-                    categoryId: Number(params.category),
-                    currentPage: Number(params.currentPage),
-                    sort: sort || sortList[0]
-                })
-            )
-        }
+    //         dispatch(
+    //             setFilters({
+    //                 searchValue: params.search,
+    //                 categoryId: Number(params.category),
+    //                 currentPage: Number(params.currentPage),
+    //                 sort: sort || sortList[0]
+    //             })
+    //         )
+    //     }
 
-        isMounted.current = true
-    }, [])
+    //     isMounted.current = true
+    // }, [])
 
     //! Если был первый рендер, то запрашиваем пиццы
     useEffect(() => {
@@ -107,7 +107,7 @@ const Home: React.FC = () => {
     const sceletons = [...new Array(6)].map((_, index) => (
         <Skeleton key={index} />
     ))
-    const pizzas = items.map((obj: any) => <PizzaBlock {...obj} />)
+    const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />)
 
     return (
         <>
