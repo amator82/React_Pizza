@@ -116,7 +116,7 @@ const Home: React.FC = () => {
                     value={categoryId}
                     onClickCategory={onChangeCategory}
                 />
-                <SortPopup />
+                <SortPopup value={sort} />
             </div>
             <h2 className='content__title'>Все пиццы</h2>
             {status === 'error' ? (
