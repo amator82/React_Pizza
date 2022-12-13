@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 import logo from '../assets/img/pizza-logo.svg'
 import Search from './Search'
-import { cartSelector } from '../redux/slices/cart/selectors'
+import { cartSelector } from '../redux/cart/selectors'
 
 const Header = () => {
     const { items, totalPrice } = useSelector(cartSelector)
@@ -21,7 +21,7 @@ const Header = () => {
             const json = JSON.stringify(items)
             localStorage.setItem('cart', json)
         }
-        
+
         isMounted.current = true
     }, [items])
 
