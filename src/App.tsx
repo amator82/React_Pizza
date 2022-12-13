@@ -2,13 +2,13 @@ import React, { Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import Home from './pages/Home'
-import NotFound from './pages/NotFound'
-import FullPizza from './pages/FullPizza'
 import MainLayout from './layouts/MainLayout'
 
 import './scss/app.scss'
 
 const Cart = React.lazy(() => import('./pages/Cart'))
+const NotFound = React.lazy(() => import('./pages/NotFound'))
+const FullPizza = React.lazy(() => import('./pages/FullPizza'))
 
 function App() {
     return (
@@ -25,8 +25,26 @@ function App() {
                         </Suspense>
                     }
                 />
-                <Route path='pizza/:id' element={<FullPizza />} />
-                <Route path='*' element={<NotFound />} />
+                <Route
+                    path='pizza/:id'
+                    element={
+                        <Suspense
+                            fallback={<div>Идет загрузка...</div>}
+                        >
+                            <FullPizza />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path='*'
+                    element={
+                        <Suspense
+                            fallback={<div>Идет загрузка...</div>}
+                        >
+                            <NotFound />
+                        </Suspense>
+                    }
+                />
             </Route>
         </Routes>
     )
