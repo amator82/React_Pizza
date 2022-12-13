@@ -3,10 +3,10 @@ import clsx from 'clsx'
 import { useDispatch } from 'react-redux'
 import {
     addItem,
-    CartItem,
     minusItem,
     removeItem
-} from '../redux/slices/cartSlice'
+} from '../redux/slices/cart/slice'
+import { CartItem } from '../redux/slices/cart/types'
 
 type CartItemProps = {
     id: string
