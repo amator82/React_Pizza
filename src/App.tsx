@@ -6,9 +6,15 @@ import MainLayout from './layouts/MainLayout'
 
 import './scss/app.scss'
 
-const Cart = React.lazy(() => import('./pages/Cart'))
-const NotFound = React.lazy(() => import('./pages/NotFound'))
-const FullPizza = React.lazy(() => import('./pages/FullPizza'))
+const Cart = React.lazy(
+    () => import(/* webpackChunkName: "Cart" */ './pages/Cart')
+)
+const NotFound = React.lazy(
+    () => import(/* webpackChunkName: "NotFound" */ './pages/NotFound')
+)
+const FullPizza = React.lazy(
+    () => import(/* webpackChunkName: "FullPizza" */ './pages/FullPizza')
+)
 
 function App() {
     return (
@@ -28,9 +34,7 @@ function App() {
                 <Route
                     path='pizza/:id'
                     element={
-                        <Suspense
-                            fallback={<div>Идет загрузка...</div>}
-                        >
+                        <Suspense fallback={<div>Идет загрузка...</div>}>
                             <FullPizza />
                         </Suspense>
                     }
@@ -38,9 +42,7 @@ function App() {
                 <Route
                     path='*'
                     element={
-                        <Suspense
-                            fallback={<div>Идет загрузка...</div>}
-                        >
+                        <Suspense fallback={<div>Идет загрузка...</div>}>
                             <NotFound />
                         </Suspense>
                     }
